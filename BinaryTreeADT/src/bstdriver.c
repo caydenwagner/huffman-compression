@@ -13,6 +13,9 @@
 #include <string.h>
 #include <limits.h>
 #include <float.h>
+#include "../include/bst.h"
+#include "../../ListADT/include/list.h"
+#include "../../PriorityQueueADT/include/pqueue.h"
 
 /**************************************************************************
  Function: 	 	success
@@ -75,6 +78,13 @@ static void assert (bool bExpression, char *pTrue, char *pFalse)
 
 int main ()
 {
+	PriorityQueue sThePQueue;
+
+	BSTLoadErrorMessages ();
+
+	pqueueCreate(&sThePQueue);
+
 	assert((1 == 1), "True", "False");
+
 	printf("Success\n\n");
 }

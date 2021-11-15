@@ -19,32 +19,36 @@
 //*************************************************************************
 // Constants
 //*************************************************************************
-#define MAX_ERROR_LIST_CHARS 64
+#define MAX_ERROR_BST_CHARS 64
 
-enum {NO_ERROR = 0,
-
-	 };
-#define NUMBER_OF_LIST_ERRORS ERROR_EMPTY_LIST - NO_ERROR + 1
+enum {NO_BST_ERROR = 0,
+		  ERROR_EMPTY_BST};
+#define NUMBER_OF_BST_ERRORS ERROR_EMPTY_BST - NO_BST_ERROR + 1
 
 
 //*************************************************************************
 // Error Messages
 //*************************************************************************
-#define LOAD_LIST_ERRORS strcpy (gszListErrors[NO_ERROR], "No Error.");
+#define LOAD_BST_ERRORS strcpy (gszBSTErrors[NO_BST_ERROR], "No Error."); \
+strcpy (gszBSTErrors[ERROR_EMPTY_BST], "BST is empty.");
 
 //*************************************************************************
 // User-defined types
 //*************************************************************************
 
-typedef struct BSTNode *BSTNode;
-typedef struct BSTNode;
+typedef struct BSTNode *BSTNodePtr;
+typedef struct BSTNode
 {
-
+	double key;
+	char letter;
+	BSTNodePtr psLeftChild, psRightChild;
 } BSTNode;
 
 //*************************************************************************
 // Allocation and Deallocation
 //*************************************************************************
+
+extern void BSTLoadErrorMessages ();
 
 
 //*************************************************************************
