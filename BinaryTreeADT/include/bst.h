@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../../ListADT/include/list.h"
-#include "../../PriorityQueueADT/include/list.h"
+#include "../../PriorityQueueADT/include/pqueue.h"
 
 //*************************************************************************
 // Constants

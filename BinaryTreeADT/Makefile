@@ -14,7 +14,7 @@ bin/bstdriver: bin/bstdriver.o bin/bst.o ../ListADT/bin/list.o ../PriorityQueueA
 bin/bstdriver.o: src/bstdriver.c include/bst.h 
 	${CC} ${CFLAGS} -c src/bstdriver.c -o bin/bstdriver.o
 
-bin/bst.o: src/bst.c include/bst.h ../ListADT/include/list.h ../PriorirtyQueueADT/include/pqueue.h
+bin/bst.o: src/bst.c include/bst.h ../ListADT/include/list.h ../PriorityQueueADT/include/pqueue.h
 	${CC} ${CFLAGS} -c src/bst.c -o bin/bst.o
 
 ../ListADT/bin/list.o:
