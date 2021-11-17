@@ -22,6 +22,8 @@
 #define MAX_ERROR_BST_CHARS 64
 
 enum {NO_BST_ERROR = 0,
+			ERROR_NONPOSITIVE_KEY,
+			ERROR_NULL_NODE,
 		  ERROR_EMPTY_BST};
 #define NUMBER_OF_BST_ERRORS ERROR_EMPTY_BST - NO_BST_ERROR + 1
 
@@ -30,6 +32,8 @@ enum {NO_BST_ERROR = 0,
 // Error Messages
 //*************************************************************************
 #define LOAD_BST_ERRORS strcpy (gszBSTErrors[NO_BST_ERROR], "No Error."); \
+strcpy (gszBSTErrors[ERROR_NONPOSITIVE_KEY], "Key is non-positive"); \
+strcpy (gszBSTErrors[ERROR_NULL_NODE], "Node is NULL"); \
 strcpy (gszBSTErrors[ERROR_EMPTY_BST], "BST is empty.");
 
 //*************************************************************************
@@ -40,7 +44,7 @@ typedef struct BSTNode *BSTNodePtr;
 typedef struct BSTNode
 {
 	double key;
-	char letter;
+	char character;
 	BSTNodePtr psLeftChild, psRightChild;
 } BSTNode;
 
@@ -50,32 +54,11 @@ typedef struct BSTNode
 
 extern void BSTLoadErrorMessages ();
 
+extern BSTNodePtr createNode(char, double);
 
-//*************************************************************************
-// Checking number of elements in list
-//*************************************************************************
+extern BSTNodePtr combineNodes(BSTNodePtr, BSTNodePtr);
 
-
-//*************************************************************************
-//												List Testing
-//*************************************************************************
-
-
-//*************************************************************************
-//													Peek Operations
-//*************************************************************************
-
-
-//*************************************************************************
-//							Updating current
-//*************************************************************************
-
-
-//*************************************************************************
-//									Insertion, Deletion, and Updating
-//*************************************************************************
-
-
+extern void terminateTree(BSTNodePtr psRoot);
 
 #endif /* BST_H_ */
 
