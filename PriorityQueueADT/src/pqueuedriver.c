@@ -134,7 +134,8 @@ static void insertInts(PriorityQueuePtr psPQ, int size,	InsertOrder order)
  ****************************************************************************/
 static bool removeInts(PriorityQueuePtr psPQ, int size)
 {
-	int i, data, priority;
+	int i, data;
+	double priority;
 	bool bRetVal = true;
 
 	for(i = 1; i <= size; ++i)
@@ -164,7 +165,7 @@ int main ()
 	const int BIG_TEST = 1000000;
 	PriorityQueue sThePQ;
 	BigStruct sBigData;
-	int priorityValue;
+	double priorityValue;
 	int i, j;
 
 	puts ("Program Start\n");

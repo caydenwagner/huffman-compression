@@ -46,7 +46,7 @@ strcpy(gszPQErrors[ERROR_EMPTY_PQ], "Error: Empty Priority Queue.");
 
 typedef struct PriorityQueueElement
 {
-	int priority;
+	double priority;
 	void* pData;
 } PriorityQueueElement;
 typedef PriorityQueueElement* PriorityQueueElementPtr;
@@ -92,7 +92,7 @@ extern bool pqueueIsEmpty (const PriorityQueuePtr psQueue);
 //*************************************************************************
 
 extern void pqueueEnqueue (PriorityQueuePtr psQueue, const void *pBuffer,
-										int size, int priority);
+										int size, double priority);
 // requires: psQueue is not full
 // results: Insert the element into the priority queue based on the
 //          priority of the element.
@@ -101,7 +101,7 @@ extern void pqueueEnqueue (PriorityQueuePtr psQueue, const void *pBuffer,
 
 
 extern void *pqueueDequeue (PriorityQueuePtr psQueue, void *pBuffer,
-														int size, int  *pPriority);
+														int size, double  *pPriority);
 
 // requires: psQueue is not empty
 // results: Remove the element from the front of a non-empty queue
@@ -113,7 +113,7 @@ extern void *pqueueDequeue (PriorityQueuePtr psQueue, void *pBuffer,
 //*************************************************************************
 
 extern void *pqueuePeek (PriorityQueuePtr psQueue, void *pBuffer, int size,
-												 int *priority);
+												 double *priority);
 // requires: psQueue is not empty
 // results: The priority and value of the first element is returned through
 //					the argument list

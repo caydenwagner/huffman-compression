@@ -78,11 +78,40 @@ static void assert (bool bExpression, char *pTrue, char *pFalse)
 
 int main ()
 {
+	const int NUM_CHARS = 10;
+	const double FREQUENCIES[] = {.20, .25, .15, .08, .07, .06, .05, .05, .05, .04};
+	char firstChar = '0';
+	BSTNodePtr psTemp, psRoot;
+	BSTNode sTemp, sTemp2;
 	PriorityQueue sThePQueue;
+	double buf;
 
 	BSTLoadErrorMessages ();
 
 	pqueueCreate(&sThePQueue);
+
+	for (int i = 0; i < NUM_CHARS; i++)
+	{
+		psTemp = createNode(firstChar, FREQUENCIES[i]);
+		pqueueEnqueue(&sThePQueue, psTemp, sizeof(BSTNode), psTemp->key);
+		firstChar++;
+	}
+
+	while (pqueueSize(&sThePQueue) > 1)
+	{
+		pqueueDequeue(&sThePQueue, &sTemp, sizeof(BSTNode), &buf);
+		pqueueDequeue(&sThePQueue, &sTemp2, sizeof(BSTNode), &buf);
+
+		psRoot = combineNodes(&sTemp, &sTemp2);
+
+		pqueueEnqueue(&sThePQueue, psRoot, sizeof(BSTNode), psRoot->key);
+	}
+
+	pqueueDequeue(&sThePQueue, psRoot, sizeof(BSTNode), &buf);
+
+	bstPrintInorder(psRoot);
+
+	terminateTree(psRoot);
 
 	assert((1 == 1), "True", "False");
 

@@ -58,7 +58,9 @@ extern BSTNodePtr createNode(char, double);
 
 extern BSTNodePtr combineNodes(BSTNodePtr, BSTNodePtr);
 
-extern void terminateTree(BSTNodePtr psRoot);
+extern void terminateTree(BSTNodePtr);
+
+extern void bstPrintInorder (BSTNodePtr);
 
 #endif /* BST_H_ */
 

@@ -11,7 +11,7 @@
 #include <stdbool.h>
 #include "../include/pqueue.h"
 
-char gszPQErrors[NUMBER_OF_LIST_ERRORS][MAX_ERROR_LIST_CHARS];
+char gszPQErrors[NUMBER_OF_PQ_ERRORS][MAX_ERROR_PQ_CHARS];
 /**************************************************************************
  Function: 	 		pqLoadErrorMessages
 
@@ -109,7 +109,7 @@ bool pqueueIsEmpty (const PriorityQueuePtr psQueue)
  Returned:			None
  *************************************************************************/
 void pqueueEnqueue (PriorityQueuePtr psQueue, const void *pBuffer,
-										int size, int priority)
+										int size, double priority)
 {
 	if (NULL == psQueue)
 	{
@@ -169,7 +169,7 @@ void pqueueEnqueue (PriorityQueuePtr psQueue, const void *pBuffer,
  Returned:			A pointer to the data of the first element
  *************************************************************************/
 void *pqueuePeek (PriorityQueuePtr psQueue, void *pBuffer, int size,
-								 int *priority)
+								 double *priority)
 {
 	if (NULL == psQueue)
 	{
@@ -208,7 +208,7 @@ void *pqueuePeek (PriorityQueuePtr psQueue, void *pBuffer, int size,
  Returned:			A pointer to the data of the removed element
  *************************************************************************/
 void *pqueueDequeue (PriorityQueuePtr psQueue, void *pBuffer,
-										 int size, int  *pPriority)
+										 int size, double  *pPriority)
 {
 	if (NULL == psQueue)
 	{

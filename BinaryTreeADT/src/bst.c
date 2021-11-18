@@ -94,13 +94,13 @@ BSTNodePtr combineNodes(BSTNodePtr psNode1, BSTNodePtr psNode2)
 
 	if (psNode1->key < psNode2->key)
 	{
-		psRoot->psLeftChild = psNode1;
-		psRoot->psRightChild = psNode2;
+		psRoot->psLeftChild = (BSTNodePtr) psNode1;
+		psRoot->psRightChild = (BSTNodePtr) psNode2;
 	}
 	else
 	{
-		psRoot->psLeftChild = psNode2;
-		psRoot->psRightChild = psNode1;
+		psRoot->psLeftChild = (BSTNodePtr) psNode2;
+		psRoot->psRightChild = (BSTNodePtr) psNode1;
 	}
 	return psRoot;
 }
@@ -117,16 +117,29 @@ void terminateTree(BSTNodePtr psRoot)
 {
 	if (NULL == psRoot)
 	{
-		processError ("terminateTree", ERROR_NULL_NODE);
-	}
-	if (NULL == psRoot)
-	{
 		return;
 	}
 	terminateTree(psRoot->psLeftChild);
 	terminateTree(psRoot->psRightChild);
 
 	free(psRoot);
+}
+/**************************************************************************
+ Function: 	 		bstPrintInorder
+
+ Description:   Prints the Binary Search Tree in order
+
+ Parameters:		psNode - pointer to the node
+
+ Returned:	 		None
+ *************************************************************************/
+void bstPrintInorder (BSTNodePtr psNode) {
+	if (psNode == NULL) {
+		return;
+	}
+	bstPrintInorder (psNode->psLeftChild);
+	printf ("(%g,%c)-", psNode->key, psNode->character);
+	bstPrintInorder (psNode->psRightChild);
 }
 
 
