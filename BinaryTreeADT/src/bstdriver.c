@@ -17,6 +17,8 @@
 #include "../../ListADT/include/list.h"
 #include "../../PriorityQueueADT/include/pqueue.h"
 
+void combineNodes(PriorityQueuePtr);
+
 /**************************************************************************
  Function: 	 	success
 
@@ -81,10 +83,9 @@ int main ()
 	const int NUM_CHARS = 10;
 	const double FREQUENCIES[] = {.20, .25, .15, .08, .07, .06, .05, .05, .05, .04};
 	char firstChar = '0';
-	BSTNodePtr psTemp, psRoot;
-	BSTNode sTemp, sTemp2;
+	BSTNode sTemp;
+	BSTNodePtr psRoot;
 	PriorityQueue sThePQueue;
-	double buf;
 
 	BSTLoadErrorMessages ();
 
@@ -92,26 +93,18 @@ int main ()
 
 	for (int i = 0; i < NUM_CHARS; i++)
 	{
-		psTemp = createNode(firstChar, FREQUENCIES[i]);
-		pqueueEnqueue(&sThePQueue, psTemp, sizeof(BSTNode), psTemp->key);
+		sTemp.character = firstChar;
+		sTemp.key = FREQUENCIES[i];
+		sTemp.psRightChild = sTemp.psLeftChild = NULL;
+		pqueueEnqueue(&sThePQueue, &sTemp, sizeof(BSTNode), sTemp.key);
 		firstChar++;
 	}
 
-	while (pqueueSize(&sThePQueue) > 1)
-	{
-		pqueueDequeue(&sThePQueue, &sTemp, sizeof(BSTNode), &buf);
-		pqueueDequeue(&sThePQueue, &sTemp2, sizeof(BSTNode), &buf);
-
-		psRoot = combineNodes(&sTemp, &sTemp2);
-
-		pqueueEnqueue(&sThePQueue, psRoot, sizeof(BSTNode), psRoot->key);
-	}
-
-	pqueueDequeue(&sThePQueue, psRoot, sizeof(BSTNode), &buf);
+	psRoot = generateTree(&sThePQueue);
 
 	bstPrintInorder(psRoot);
 
-	terminateTree(psRoot);
+	freeTree(psRoot);
 
 	assert((1 == 1), "True", "False");
 

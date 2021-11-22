@@ -54,11 +54,11 @@ typedef struct BSTNode
 
 extern void BSTLoadErrorMessages ();
 
-extern BSTNodePtr createNode(char, double);
+extern BSTNodePtr createNode();
 
-extern BSTNodePtr combineNodes(BSTNodePtr, BSTNodePtr);
+extern void freeTree(BSTNodePtr);
 
-extern void terminateTree(BSTNodePtr);
+extern BSTNodePtr generateTree(PriorityQueuePtr psPQueue);
 
 extern void bstPrintInorder (BSTNodePtr);
 

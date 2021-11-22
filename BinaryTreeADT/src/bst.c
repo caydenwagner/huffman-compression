@@ -26,49 +26,23 @@ char gszBSTErrors[NUMBER_OF_BST_ERRORS][MAX_ERROR_BST_CHARS];
  *************************************************************************/
 void BSTLoadErrorMessages ()
 {
-	LOAD_BST_ERRORS
 	pqueueLoadErrorMessages ();
 	lstLoadErrorMessages ();
 }
 /**************************************************************************
- Function: 	 		processError
-
- Description:   Process the error code passed to this routine
-
- Parameters:		pszFunctionName - function causing the error
- 	 	 	 					errorCode 	    - identifies the list error
-
- Returned:	 		None
- *************************************************************************/
-static void processError (const char *pszFunctionName, int errorCode)
-{
-	printf ("Function: %s %s \n ", pszFunctionName,
-			gszBSTErrors [errorCode]);
-  exit (EXIT_FAILURE);
-}
-/**************************************************************************
- Function:			createNode
+ Function:			createLeafNode
 
  Description:		allocates spaces for a BSTNode and inserts the given data
 
- Parameters:		data - the char data that is stored in the created node
- 	 	 	 	 	 	 	 	key  - the key probability that is assigned to the created
- 	 	 	 	 	 	 	 				 node
+ Parameters:
 
  Returned:	 		a pointer to the created node
  *************************************************************************/
-BSTNodePtr createNode(char data, double key)
+BSTNodePtr createNode()
 {
-	if (0 >= key)
-	{
-		processError ("createNode", ERROR_NONPOSITIVE_KEY);
-	}
-	BSTNodePtr psTemp = (BSTNodePtr) malloc(sizeof(BSTNode));
-	psTemp->psLeftChild = psTemp->psRightChild = NULL;
-	psTemp->key = key;
-	psTemp->character = data;
-
-	return psTemp;
+	BSTNodePtr psTmp = NULL;
+	psTmp = (BSTNodePtr) malloc (sizeof(BSTNode));
+	return psTmp;
 }
 /**************************************************************************
  Function:			combineNodes
@@ -82,27 +56,40 @@ BSTNodePtr createNode(char data, double key)
 
  Returned:	 		a pointer to the created root
  *************************************************************************/
-BSTNodePtr combineNodes(BSTNodePtr psNode1, BSTNodePtr psNode2)
+BSTNodePtr generateTree(PriorityQueuePtr psPQueue)
 {
-	if (NULL == psNode1 || NULL == psNode2)
-	{
-		processError ("combineNodes", ERROR_NULL_NODE);
-	}
-	const char NULL_CHARACTER = '\0';
-	double newKey = psNode1->key + psNode2->key;
-	BSTNodePtr psRoot = createNode(NULL_CHARACTER, newKey);
+	const char INTERIOR_CHARACTER = '$';
+	double buf;
+	BSTNodePtr psTemp, psTemp2, psTmp;
+	BSTNode sTemp, sTemp2;
 
-	if (psNode1->key < psNode2->key)
+	while (pqueueSize(psPQueue) > 1)
 	{
-		psRoot->psLeftChild = (BSTNodePtr) psNode1;
-		psRoot->psRightChild = (BSTNodePtr) psNode2;
+		pqueueDequeue(psPQueue, &sTemp, sizeof(BSTNode), &buf);
+		psTemp = createNode();
+		memcpy(psTemp, &sTemp, sizeof(BSTNode));
+
+		psTemp2 = (BSTNodePtr) pqueueDequeue(psPQueue, &sTemp2, sizeof(BSTNode), &buf);
+		psTemp2 = createNode();
+		memcpy(psTemp2, &sTemp2, sizeof(BSTNode));
+
+		psTmp = createNode();
+		psTmp->character = INTERIOR_CHARACTER;
+		psTmp->key = sTemp.key + sTemp2.key;
+
+		if (sTemp.key < sTemp2.key)
+		{
+			psTmp->psLeftChild = psTemp;
+			psTmp->psRightChild = psTemp2;
+		}
+		else
+		{
+			psTmp->psRightChild = psTemp;
+			psTmp->psLeftChild = psTemp2;
+		}
+		pqueueEnqueue(psPQueue, psTmp, sizeof(BSTNode), psTmp->key);
 	}
-	else
-	{
-		psRoot->psLeftChild = (BSTNodePtr) psNode2;
-		psRoot->psRightChild = (BSTNodePtr) psNode1;
-	}
-	return psRoot;
+	return pqueueDequeue(psPQueue, &sTemp, sizeof(BSTNode), &buf);
 }
 /**************************************************************************
  Function:			terminateTree
@@ -113,16 +100,12 @@ BSTNodePtr combineNodes(BSTNodePtr psNode1, BSTNodePtr psNode2)
 
  Returned:	 		None
  *************************************************************************/
-void terminateTree(BSTNodePtr psRoot)
+void freeTree(BSTNodePtr psTree)
 {
-	if (NULL == psRoot)
-	{
-		return;
-	}
-	terminateTree(psRoot->psLeftChild);
-	terminateTree(psRoot->psRightChild);
-
-	free(psRoot);
+    if (!psTree) return;
+    freeTree (psTree->psLeftChild);
+    freeTree (psTree->psRightChild);
+    free (psTree);
 }
 /**************************************************************************
  Function: 	 		bstPrintInorder
@@ -138,7 +121,7 @@ void bstPrintInorder (BSTNodePtr psNode) {
 		return;
 	}
 	bstPrintInorder (psNode->psLeftChild);
-	printf ("(%g,%c)-", psNode->key, psNode->character);
+	fprintf (stderr, "(%g,%c)-", psNode->key, psNode->character);
 	bstPrintInorder (psNode->psRightChild);
 }
 
