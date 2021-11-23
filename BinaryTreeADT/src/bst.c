@@ -40,9 +40,9 @@ void BSTLoadErrorMessages ()
  *************************************************************************/
 BSTNodePtr createNode()
 {
-	BSTNodePtr psTmp = NULL;
-	psTmp = (BSTNodePtr) malloc (sizeof(BSTNode));
-	return psTmp;
+	BSTNodePtr psRoot = NULL;
+	psRoot = (BSTNodePtr) malloc (sizeof(BSTNode));
+	return psRoot;
 }
 /**************************************************************************
  Function:			combineNodes
@@ -60,7 +60,7 @@ BSTNodePtr generateTree(PriorityQueuePtr psPQueue)
 {
 	const char INTERIOR_CHARACTER = '$';
 	double buf;
-	BSTNodePtr psTemp, psTemp2, psTmp;
+	BSTNodePtr psTemp, psTemp2, psRoot;
 	BSTNode sTemp, sTemp2;
 
 	while (pqueueSize(psPQueue) > 1)
@@ -69,30 +69,33 @@ BSTNodePtr generateTree(PriorityQueuePtr psPQueue)
 		psTemp = createNode();
 		memcpy(psTemp, &sTemp, sizeof(BSTNode));
 
-		psTemp2 = (BSTNodePtr) pqueueDequeue(psPQueue, &sTemp2, sizeof(BSTNode), &buf);
+		pqueueDequeue(psPQueue, &sTemp2, sizeof(BSTNode), &buf);
 		psTemp2 = createNode();
 		memcpy(psTemp2, &sTemp2, sizeof(BSTNode));
 
-		psTmp = createNode();
-		psTmp->character = INTERIOR_CHARACTER;
-		psTmp->key = sTemp.key + sTemp2.key;
+		psRoot = createNode();
+		psRoot->character = INTERIOR_CHARACTER;
+		psRoot->key = sTemp.key + sTemp2.key;
 
 		if (sTemp.key < sTemp2.key)
 		{
-			psTmp->psLeftChild = psTemp;
-			psTmp->psRightChild = psTemp2;
+			psRoot->psLeftChild = psTemp;
+			psRoot->psRightChild = psTemp2;
 		}
 		else
 		{
-			psTmp->psRightChild = psTemp;
-			psTmp->psLeftChild = psTemp2;
+			psRoot->psRightChild = psTemp;
+			psRoot->psLeftChild = psTemp2;
 		}
-		pqueueEnqueue(psPQueue, psTmp, sizeof(BSTNode), psTmp->key);
+		if (!pqueueIsEmpty(psPQueue))
+		{
+		pqueueEnqueue(psPQueue, psRoot, sizeof(BSTNode), psRoot->key);
+		}
 	}
-	return pqueueDequeue(psPQueue, &sTemp, sizeof(BSTNode), &buf);
+	return psRoot;
 }
 /**************************************************************************
- Function:			terminateTree
+ Function:			freeTree
 
  Description:		frees all allocated data in the tree
 
@@ -102,10 +105,14 @@ BSTNodePtr generateTree(PriorityQueuePtr psPQueue)
  *************************************************************************/
 void freeTree(BSTNodePtr psTree)
 {
-    if (!psTree) return;
-    freeTree (psTree->psLeftChild);
-    freeTree (psTree->psRightChild);
-    free (psTree);
+	if (NULL == psTree)
+	{
+		return;
+	}
+	freeTree (psTree->psLeftChild);
+	freeTree (psTree->psRightChild);
+	printf("\nFreeing: (%g,%c)", psTree->key, psTree->character);
+	free (psTree);
 }
 /**************************************************************************
  Function: 	 		bstPrintInorder
@@ -117,12 +124,12 @@ void freeTree(BSTNodePtr psTree)
  Returned:	 		None
  *************************************************************************/
 void bstPrintInorder (BSTNodePtr psNode) {
-	if (psNode == NULL) {
+	if (NULL == psNode)
+	{
 		return;
 	}
 	bstPrintInorder (psNode->psLeftChild);
-	fprintf (stderr, "(%g,%c)-", psNode->key, psNode->character);
+	printf ("(%g,%c)-", psNode->key, psNode->character);
+	fflush(stdout);
 	bstPrintInorder (psNode->psRightChild);
 }
-
-

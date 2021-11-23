@@ -17,8 +17,6 @@
 #include "../../ListADT/include/list.h"
 #include "../../PriorityQueueADT/include/pqueue.h"
 
-void combineNodes(PriorityQueuePtr);
-
 /**************************************************************************
  Function: 	 	success
 
@@ -105,8 +103,8 @@ int main ()
 	bstPrintInorder(psRoot);
 
 	freeTree(psRoot);
-
-	assert((1 == 1), "True", "False");
+	printf("\n\n");
+	assert((1 == 1), "True", "\nFalse");
 
 	printf("Success\n\n");
 }
