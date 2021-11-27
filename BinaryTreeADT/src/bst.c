@@ -61,7 +61,7 @@ BSTNodePtr generateTree(PriorityQueuePtr psPQueue)
 	const char INTERIOR_CHARACTER = '$';
 	double buf;
 	BSTNodePtr psTemp, psTemp2, psRoot;
-	BSTNode sTemp, sTemp2;
+	BSTNode sTemp, sTemp2, sRoot;
 
 	while (pqueueSize(psPQueue) > 1)
 	{
@@ -73,25 +73,26 @@ BSTNodePtr generateTree(PriorityQueuePtr psPQueue)
 		psTemp2 = createNode();
 		memcpy(psTemp2, &sTemp2, sizeof(BSTNode));
 
-		psRoot = createNode();
-		psRoot->character = INTERIOR_CHARACTER;
-		psRoot->key = sTemp.key + sTemp2.key;
+		sRoot.character = INTERIOR_CHARACTER;
+		sRoot.key = sTemp.key + sTemp2.key;
 
 		if (sTemp.key < sTemp2.key)
 		{
-			psRoot->psLeftChild = psTemp;
-			psRoot->psRightChild = psTemp2;
+			sRoot.psLeftChild = psTemp;
+			sRoot.psRightChild = psTemp2;
 		}
 		else
 		{
-			psRoot->psRightChild = psTemp;
-			psRoot->psLeftChild = psTemp2;
+			sRoot.psRightChild = psTemp;
+			sRoot.psLeftChild = psTemp2;
 		}
-		if (!pqueueIsEmpty(psPQueue))
-		{
-		pqueueEnqueue(psPQueue, psRoot, sizeof(BSTNode), psRoot->key);
-		}
+		pqueueEnqueue(psPQueue, &sRoot, sizeof(BSTNode), sRoot.key);
 	}
+
+	pqueueDequeue(psPQueue, &sTemp2, sizeof(BSTNode), &buf);
+	psRoot = createNode();
+	memcpy(psRoot, &sTemp2, sizeof(BSTNode));
+
 	return psRoot;
 }
 /**************************************************************************

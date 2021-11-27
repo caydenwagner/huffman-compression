@@ -99,12 +99,13 @@ int main ()
 	}
 
 	psRoot = generateTree(&sThePQueue);
+	assert(pqueueIsEmpty(&sThePQueue), "PQ is Empty", "PQ is NOT empty");
 
 	bstPrintInorder(psRoot);
 
 	freeTree(psRoot);
+
 	printf("\n\n");
-	assert((1 == 1), "True", "\nFalse");
 
 	printf("Success\n\n");
 }
