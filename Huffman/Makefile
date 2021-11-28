@@ -3,25 +3,25 @@ CFLAGS=-Wall -g
 
 .PHONY: all clean valgrind
 
-all: bin bin/HuffmanDriver
+all: bin bin/huffmandriver
 
 bin: 
 	mkdir -p bin
 
-bin/HuffmanDriver: bin/HuffmanDriver.o bin/Huffman.o ../ListADT/bin/list.o \
+bin/huffmandriver: bin/huffmandriver.o bin/huffman.o ../ListADT/bin/list.o \
 					../PriorityQueueADT/bin/pqueue.o \
 					../BinaryTreeADT/bin/binarytree.o
-	${CC} ${CFLAGS} bin/HuffmanDriver.o bin/Huffman.o ../ListADT/bin/list.o \
+	${CC} ${CFLAGS} bin/huffmandriver.o bin/huffman.o ../ListADT/bin/list.o \
 					../PriorityQueueADT/bin/pqueue.o \
 					../BinaryTreeADT/bin/binarytree.o \
-					-o bin/HuffmanDriver
+					-o bin/huffmandriver
 
-bin/HuffmanDriver.o: src/HuffmanDriver.c include/Huffman.h 
-	${CC} ${CFLAGS} -c src/HuffmanDriver.c -o bin/HuffmanDriver.o
+bin/huffmandriver.o: src/huffmandriver.c include/huffman.h 
+	${CC} ${CFLAGS} -c src/huffmandriver.c -o bin/huffmandriver.o
 
-bin/Huffman.o: src/Huffman.c include/Huffman.h ../ListADT/include/list.h \
+bin/huffman.o: src/huffman.c include/huffman.h ../ListADT/include/list.h \
 				../PriorityQueueADT/include/pqueue.h ../BinaryTreeADT/include/binarytree.h
-	${CC} ${CFLAGS} -c src/Huffman.c -o bin/Huffman.o
+	${CC} ${CFLAGS} -c src/huffman.c -o bin/huffman.o
 
 ../ListADT/bin/list.o:
 	cd ../ListADT; make bin/list.o
@@ -32,8 +32,8 @@ bin/Huffman.o: src/Huffman.c include/Huffman.h ../ListADT/include/list.h \
 ../BinaryTreeADT/bin/binarytree.o:
 	cd ../BinaryTreeADT; make bin/binarytree.o
 	
-valgrind: bin/HuffmanDriver
-	valgrind -v --leak-check=yes --track-origins=yes --leak-check=full --show-leak-kinds=all bin/HuffmanDriver
+valgrind: bin/huffmandriver
+	valgrind -v --leak-check=yes --track-origins=yes --leak-check=full --show-leak-kinds=all bin/huffmandriver
 
 clean:
-	rm -rf bin/*.o bin/HuffmanDriver
+	rm -rf bin/*.o bin/huffmandriver

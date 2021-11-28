@@ -1,5 +1,5 @@
 /**************************************************************************
- File name:		binarytreedriver.c
+ File name:		huffmandriver.c
  Author:			Cayden Wagner
  Date:				November 27 2021
  Class:				CS300 Data Structures
@@ -16,7 +16,7 @@
 #include "../../ListADT/include/list.h"
 #include "../../PriorityQueueADT/include/pqueue.h"
 #include "../../BinaryTreeADT/include/binarytree.h"
-#include "../include/Huffman.h"
+#include "../include/huffman.h"
 
 /**************************************************************************
  Function: 	 	success
@@ -30,7 +30,6 @@ static void success (char * szStr)
 {
 	printf ("SUCCESS: %s\n", szStr);
 }
-
 /**************************************************************************
  Function: 	 	failure
 
@@ -44,7 +43,6 @@ static void failure (char * szStr)
 	printf ("FAILURE: %s\n", szStr);
 	exit (EXIT_FAILURE);
 }
-
 /****************************************************************************
  Function: 	 	assert
 
@@ -66,7 +64,6 @@ static void assert (bool bExpression, char *pTrue, char *pFalse)
 		failure (pFalse);
 	}
 }
-
 /**************************************************************************
  Function: 	 	main
 
@@ -76,7 +73,6 @@ static void assert (bool bExpression, char *pTrue, char *pFalse)
 
  Returned:	 	none
  *************************************************************************/
-
 int main ()
 {
 	HuffmanPtr psHuffman;

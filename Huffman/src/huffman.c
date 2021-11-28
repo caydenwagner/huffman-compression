@@ -1,5 +1,5 @@
 /**************************************************************************
- File name:		  Huffman.c
+ File name:		  huffman.c
  Author:        Cayden Wagner
  Date:          11.27.2021
  Class:         CS300
@@ -7,9 +7,9 @@
  Purpose:
  *************************************************************************/
 
-#include "../include/Huffman.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+
+#include "../include/huffman.h"

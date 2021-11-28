@@ -1,5 +1,5 @@
 /**************************************************************************
- File name:			Huffman.h
+ File name:			huffman.h
  Author:				Cayden Wagner
  Date:					11.27.2021
  Class:         CS300
