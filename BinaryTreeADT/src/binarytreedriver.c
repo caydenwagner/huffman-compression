@@ -1,9 +1,9 @@
 /**************************************************************************
- File name:
- Author:
- Date:
- Class:
- Assignment:
+ File name:		binarytreedriver.c
+ Author:			Cayden Wagner
+ Date:				November 27 2021
+ Class:				CS300 Data Structures
+ Assignment:	Binary Tree
  Purpose:
  *************************************************************************/
 
@@ -13,9 +13,9 @@
 #include <string.h>
 #include <limits.h>
 #include <float.h>
-#include "../include/bst.h"
 #include "../../ListADT/include/list.h"
 #include "../../PriorityQueueADT/include/pqueue.h"
+#include "../include/binarytree.h"
 
 /**************************************************************************
  Function: 	 	success
@@ -81,11 +81,11 @@ int main ()
 	const int NUM_CHARS = 10;
 	const double FREQUENCIES[] = {.20, .25, .15, .08, .07, .06, .05, .05, .05, .04};
 	char firstChar = '0';
-	BSTNode sTemp;
-	BSTNodePtr psRoot;
+	BTNode sTemp;
+	BTNodePtr psRoot;
 	PriorityQueue sThePQueue;
 
-	BSTLoadErrorMessages ();
+	BTLoadErrorMessages ();
 
 	pqueueCreate(&sThePQueue);
 
@@ -94,14 +94,14 @@ int main ()
 		sTemp.character = firstChar;
 		sTemp.key = FREQUENCIES[i];
 		sTemp.psRightChild = sTemp.psLeftChild = NULL;
-		pqueueEnqueue(&sThePQueue, &sTemp, sizeof(BSTNode), sTemp.key);
+		pqueueEnqueue(&sThePQueue, &sTemp, sizeof(BTNode), sTemp.key);
 		firstChar++;
 	}
 
 	psRoot = generateTree(&sThePQueue);
 	assert(pqueueIsEmpty(&sThePQueue), "PQ is Empty", "PQ is NOT empty");
 
-	bstPrintInorder(psRoot);
+	BTPrintInorder(psRoot);
 
 	freeTree(psRoot);
 

@@ -1,30 +1,28 @@
 /**************************************************************************
- File name:		  bst.c
+ File name:		  binarytree.c
  Author:        Cayden Wagner
  Date:          11.15.2021
  Class:         CS300
- Assignment:    Binary Search Trees
+ Assignment:    Binary Trees
  Purpose:
  *************************************************************************/
+
+#include "../include/binarytree.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "../include/bst.h"
-
-char gszBSTErrors[NUMBER_OF_BST_ERRORS][MAX_ERROR_BST_CHARS];
 /**************************************************************************
- Function: 	 		BSTLoadErrorMessages
+ Function: 	 		BTLoadErrorMessages
 
- Description: 	Initializes the string of error messages. LOAD_BST_ERRORS is a
- 	 	 	 					macro defined in the header file.
+ Description: 	Initializes the string of error messages
 
  Parameters:		None
 
  Returned:	 		None
  *************************************************************************/
-void BSTLoadErrorMessages ()
+void BTLoadErrorMessages ()
 {
 	pqueueLoadErrorMessages ();
 	lstLoadErrorMessages ();
@@ -32,16 +30,16 @@ void BSTLoadErrorMessages ()
 /**************************************************************************
  Function:			createLeafNode
 
- Description:		allocates spaces for a BSTNode and inserts the given data
+ Description:		allocates spaces for a BTNode and inserts the given data
 
  Parameters:
 
  Returned:	 		a pointer to the created node
  *************************************************************************/
-BSTNodePtr createNode()
+BTNodePtr createNode()
 {
-	BSTNodePtr psRoot = NULL;
-	psRoot = (BSTNodePtr) malloc (sizeof(BSTNode));
+	BTNodePtr psRoot = NULL;
+	psRoot = (BTNodePtr) malloc (sizeof(BTNode));
 	return psRoot;
 }
 /**************************************************************************
@@ -56,22 +54,22 @@ BSTNodePtr createNode()
 
  Returned:	 		a pointer to the created root
  *************************************************************************/
-BSTNodePtr generateTree(PriorityQueuePtr psPQueue)
+BTNodePtr generateTree(PriorityQueuePtr psPQueue)
 {
 	const char INTERIOR_CHARACTER = '$';
 	double buf;
-	BSTNodePtr psTemp, psTemp2, psRoot;
-	BSTNode sTemp, sTemp2, sRoot;
+	BTNodePtr psTemp, psTemp2, psRoot;
+	BTNode sTemp, sTemp2, sRoot;
 
 	while (pqueueSize(psPQueue) > 1)
 	{
-		pqueueDequeue(psPQueue, &sTemp, sizeof(BSTNode), &buf);
+		pqueueDequeue(psPQueue, &sTemp, sizeof(BTNode), &buf);
 		psTemp = createNode();
-		memcpy(psTemp, &sTemp, sizeof(BSTNode));
+		memcpy(psTemp, &sTemp, sizeof(BTNode));
 
-		pqueueDequeue(psPQueue, &sTemp2, sizeof(BSTNode), &buf);
+		pqueueDequeue(psPQueue, &sTemp2, sizeof(BTNode), &buf);
 		psTemp2 = createNode();
-		memcpy(psTemp2, &sTemp2, sizeof(BSTNode));
+		memcpy(psTemp2, &sTemp2, sizeof(BTNode));
 
 		sRoot.character = INTERIOR_CHARACTER;
 		sRoot.key = sTemp.key + sTemp2.key;
@@ -86,12 +84,12 @@ BSTNodePtr generateTree(PriorityQueuePtr psPQueue)
 			sRoot.psRightChild = psTemp;
 			sRoot.psLeftChild = psTemp2;
 		}
-		pqueueEnqueue(psPQueue, &sRoot, sizeof(BSTNode), sRoot.key);
+		pqueueEnqueue(psPQueue, &sRoot, sizeof(BTNode), sRoot.key);
 	}
 
-	pqueueDequeue(psPQueue, &sTemp2, sizeof(BSTNode), &buf);
+	pqueueDequeue(psPQueue, &sTemp2, sizeof(BTNode), &buf);
 	psRoot = createNode();
-	memcpy(psRoot, &sTemp2, sizeof(BSTNode));
+	memcpy(psRoot, &sTemp2, sizeof(BTNode));
 
 	return psRoot;
 }
@@ -104,7 +102,7 @@ BSTNodePtr generateTree(PriorityQueuePtr psPQueue)
 
  Returned:	 		None
  *************************************************************************/
-void freeTree(BSTNodePtr psTree)
+void freeTree(BTNodePtr psTree)
 {
 	if (NULL == psTree)
 	{
@@ -116,7 +114,7 @@ void freeTree(BSTNodePtr psTree)
 	free (psTree);
 }
 /**************************************************************************
- Function: 	 		bstPrintInorder
+ Function: 	 		BTPrintInorder
 
  Description:   Prints the Binary Search Tree in order
 
@@ -124,13 +122,13 @@ void freeTree(BSTNodePtr psTree)
 
  Returned:	 		None
  *************************************************************************/
-void bstPrintInorder (BSTNodePtr psNode) {
+void BTPrintInorder (BTNodePtr psNode) {
 	if (NULL == psNode)
 	{
 		return;
 	}
-	bstPrintInorder (psNode->psLeftChild);
+	BTPrintInorder (psNode->psLeftChild);
 	printf ("(%g,%c)-", psNode->key, psNode->character);
 	fflush(stdout);
-	bstPrintInorder (psNode->psRightChild);
+	BTPrintInorder (psNode->psRightChild);
 }
