@@ -4,7 +4,7 @@
  Date:				November 27 2021
  Class:				CS300 Data Structures
  Assignment:	Binary Tree
- Purpose:
+ Purpose:			To test the functionality of the Binary Tree ADT
  *************************************************************************/
 
 #include <stdio.h>
@@ -65,11 +65,10 @@ static void assert (bool bExpression, char *pTrue, char *pFalse)
 		failure (pFalse);
 	}
 }
-
 /**************************************************************************
  Function: 	 	main
 
- Description:
+ Description:	Tests the functionality of the Binary Tree ADT
 
  Parameters:	none
 
@@ -103,9 +102,13 @@ int main ()
 
 	BTPrintInorder(psRoot);
 
-	freeTree(psRoot);
-
 	printf("\n\n");
 
+	BTPrintLeftSide(psRoot, 0);
+
+	freeTree(psRoot);
+
 	printf("Success\n\n");
+
+	return 0;
 }

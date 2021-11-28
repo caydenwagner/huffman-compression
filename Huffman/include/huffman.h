@@ -25,7 +25,10 @@ typedef struct Huffman *HuffmanPtr;
 typedef struct Huffman
 {
 		BTNodePtr psTree;
-		PriorityQueuePtr psPQueue;
+		PriorityQueue sPQueue;
 } Huffman;
+
+extern BTNodePtr createTree(HuffmanPtr psHuffman);
+extern void terminateHuffman(HuffmanPtr psHuffman);
 
 #endif /* HUFFMAN_H_ */

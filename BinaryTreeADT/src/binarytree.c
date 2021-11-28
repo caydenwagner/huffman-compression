@@ -4,7 +4,7 @@
  Date:          11.15.2021
  Class:         CS300
  Assignment:    Binary Trees
- Purpose:
+ Purpose:				To define functions that represent the Binary Tree ADT
  *************************************************************************/
 
 #include "../include/binarytree.h"
@@ -110,7 +110,6 @@ void freeTree(BTNodePtr psTree)
 	}
 	freeTree (psTree->psLeftChild);
 	freeTree (psTree->psRightChild);
-	printf("\nFreeing: (%g,%c)", psTree->key, psTree->character);
 	free (psTree);
 }
 /**************************************************************************
@@ -131,4 +130,35 @@ void BTPrintInorder (BTNodePtr psNode) {
 	printf ("(%g,%c)-", psNode->key, psNode->character);
 	fflush(stdout);
 	BTPrintInorder (psNode->psRightChild);
+}
+/**************************************************************************
+ Function:			BTPrintLeftSide
+
+ Description:		Prints the nodes and frequencies of the Binary Tree on its side
+
+ Parameters:		psRoot - a pointer to the root of the tree
+ 	 	 	 	 	 	 	 	indent - an integer value that represents the spacing of each
+ 	 	 	 	 	 	 	 					 node, depending on how deep the node lies in the tree
+
+ Returned:	 		None
+ *************************************************************************/
+void BTPrintLeftSide(BTNodePtr psRoot, int indent)
+{
+	const int SPACING = 8;
+	if(NULL != psRoot) {
+		if(psRoot->psRightChild)
+			BTPrintLeftSide(psRoot->psRightChild, indent + SPACING);
+
+		if (indent)
+		{
+			for (int i = 0; i < indent; i++)
+			{
+			 printf(" ");
+			}
+		}
+		printf ("(%g,%c)\n", psRoot->key, psRoot->character);
+
+		if(psRoot->psLeftChild)
+			BTPrintLeftSide(psRoot->psLeftChild, indent + SPACING);
+	}
 }

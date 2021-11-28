@@ -1,10 +1,11 @@
 /**************************************************************************
  File name:			binarytree.h
- Author:
- Date:
+ Author:				Cayden Wagner
+ Date:					11.28.2021
  Class:         CS300
- Assignment:
- Purpose:
+ Assignment:		Binary Trees
+ Purpose:				To provide user-defined structs and functions that represents
+  							the Binary Tree abstract data type
  *************************************************************************/
 
 #ifndef BINARYTREE_H_
@@ -37,6 +38,8 @@ extern void freeTree(BTNodePtr);
 extern BTNodePtr generateTree(PriorityQueuePtr psPQueue);
 
 extern void BTPrintInorder (BTNodePtr);
+
+void BTPrintLeftSide(BTNodePtr, int);
 
 #endif /* BINARYTREE_H_ */
 
