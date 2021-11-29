@@ -4,7 +4,6 @@
  Date:          11.27.2021
  Class:         CS300
  Assignment:    Binary Trees
- Purpose:
  *************************************************************************/
 
 #include <stdio.h>
@@ -18,7 +17,7 @@
 
  Description: Creates the tree that represents the alphabet and its frequencies
 
- Parameters:	psHuffman - a pointer to the user-defined Huffman struct
+ Parameters:	psHuffman - a pointer to a user-defined Huffman struct element
 
  Returned:	 	a pointer to the root node of the created tree
  *************************************************************************/
@@ -58,7 +57,7 @@ BTNodePtr createTree(HuffmanPtr psHuffman)
  Description: terminates all allocated data inside of the Huffman struct by
   						calling pqueueTerminate and freeTree
 
- Parameters:	psHuffman - a pointer to the user-defined Huffman struct
+ Parameters:	psHuffman - a pointer to a user-defined Huffman struct element
 
  Returned:	 	none
  *************************************************************************/
@@ -68,13 +67,15 @@ void terminateHuffman (HuffmanPtr psHuffman)
 	freeTree(psHuffman->psTree);
 }
 /**************************************************************************
- Function:
+ Function:			decodeText
 
- Description:
+ Description:		decodes binary text from a text file into plain text using
+ 	 	 	 	 	 	 	 	the Huffman tree
 
- Parameters:
+ Parameters:		psHuffman - a pointer to a Huffman struct element
+ 	 	 	 	 	 	 	 	fPtr 			- a pointer to the input file
 
- Returned:
+ Returned:			None
  *************************************************************************/
 void decodeText (HuffmanPtr psHuffman, FILE *fPtr)
 {
@@ -127,71 +128,82 @@ void decodeText (HuffmanPtr psHuffman, FILE *fPtr)
 	fclose(fOutput);
 }
 /**************************************************************************
- Function:
+ Function:			findBinary
 
- Description:
+ Description:  	Searches the tree for a specified character and prints the
+  							corresponding binary number to a file
 
- Parameters:
+ Parameters:		psRoot 		- a pointer to the root of the binary tree
+ 	 	 	 	 	 	 	 	character - the char variable that is searched for
+ 	 	 	 	 	 	 	 	arr 			- an array of integers that contains the final binary
+ 	 	 	 	 	 	 	 							result
+ 	 	 	 	 	 	 	 	fPtr      - a pointer to the input file
 
- Returned:
+ Returned:			none
  *************************************************************************/
-void findBinary(BTNodePtr psRoot, char character, int arr[], int top, FILE* fPtr)
+void findBinary(BTNodePtr psRoot, char character, int aBinary[], int top,
+								FILE* fPtr)
 {
 	if (psRoot->psLeftChild) {
-		arr[top] = 0;
-		findBinary(psRoot->psLeftChild, character, arr, top + 1, fPtr);
+		aBinary[top] = 0;
+		findBinary(psRoot->psLeftChild, character, aBinary, top + 1, fPtr);
 	}
 
 	if (psRoot->psRightChild) {
-		arr[top] = 1;
-		findBinary(psRoot->psRightChild, character, arr, top + 1, fPtr);
+		aBinary[top] = 1;
+		findBinary(psRoot->psRightChild, character, aBinary, top + 1, fPtr);
 	}
 
 	if (isLeaf(psRoot))
 	{
 		if (psRoot->character == character)
 		{
-			printArray(arr, top, fPtr);
+			printArray(aBinary, top, fPtr);
 		}
 	}
 }
 /**************************************************************************
- Function:
+ Function:			printArray
 
- Description:
+ Description:		prints an array to the designated file
 
- Parameters:
+ Parameters:		arr - an array of integers that are printed
+ 	 	 	 	 	 	 	 	numElem - number of elements in the array
+ 	 	 	 	 	 	 	 	fPtr 		- a pointer to the input file
 
- Returned:
+ Returned:			none
  *************************************************************************/
-void printArray(int arr[], int numElem, FILE* fPtr)
+void printArray(int aBinary[], int numElem, FILE* fPtr)
 {
 	for (int i = 0; i < numElem; ++i)
 	{
-		fprintf(fPtr, "%d", arr[i]);
+		fprintf(fPtr, "%d", aBinary[i]);
 	}
 }
 /**************************************************************************
- Function:
+ Function:		isLeaf
 
- Description:
+ Description:	checks if a binary tree node is a leaf node or not
 
- Parameters:
+ Parameters:	psNode - the binary tree node that is checked
 
- Returned:
+ Returned:		true if the node is a leaf node, else false
  *************************************************************************/
-bool isLeaf(BTNodePtr psRoot)
+bool isLeaf(BTNodePtr psNode)
 {
-  return !(psRoot->psLeftChild) && !(psRoot->psRightChild);
+  return !(psNode->psLeftChild) && !(psNode->psRightChild);
 }
 /**************************************************************************
- Function:
+ Function:			encodeText
 
- Description:
+ Description:		encodes plain text data from the input file into compressed
+  							binary form using the Huffman tree and prints it to the output
+  							file
 
- Parameters:
+ Parameters:		psHuffman - a pointer to a user-defined Huffman struct element
+ 	 	 	 	 	 	 	 	fPtr 			- a pointer to the input file
 
- Returned:
+ Returned:			none
  *************************************************************************/
 void encodeText (HuffmanPtr psHuffman, FILE* fPtr)
 {

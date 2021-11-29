@@ -13,8 +13,6 @@
 #include <string.h>
 #include <limits.h>
 #include <float.h>
-#include "../../ListADT/include/list.h"
-#include "../../PriorityQueueADT/include/pqueue.h"
 #include "../include/binarytree.h"
 
 /**************************************************************************
@@ -100,6 +98,7 @@ int main ()
 	psRoot = generateTree(&sThePQueue);
 	assert(pqueueIsEmpty(&sThePQueue), "PQ is Empty", "PQ is NOT empty");
 
+	printf("Printing in order:\n");
 	BTPrintInorder(psRoot);
 
 	printf("\n\n");

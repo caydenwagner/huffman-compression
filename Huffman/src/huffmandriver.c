@@ -14,9 +14,6 @@
 #include <string.h>
 #include <limits.h>
 #include <float.h>
-#include "../../ListADT/include/list.h"
-#include "../../PriorityQueueADT/include/pqueue.h"
-#include "../../BinaryTreeADT/include/binarytree.h"
 #include "../include/huffman.h"
 /**************************************************************************
  Function: 	 	main
