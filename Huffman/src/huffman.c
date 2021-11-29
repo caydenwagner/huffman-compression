@@ -203,9 +203,13 @@ void encodeText (HuffmanPtr psHuffman, FILE* fPtr)
 
 	fOutput = fopen("data/output.txt", "w");
 
-	while (!feof(fPtr))
+	while (1)
 	{
 		fscanf(fPtr, "%c", &temp);
+		if (feof(fPtr))
+		{
+			break;
+		}
 		if (temp == ' ')
 		{
 			temp = '_';
