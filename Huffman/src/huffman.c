@@ -135,21 +135,24 @@ void decodeText (HuffmanPtr psHuffman, FILE *fPtr)
 
  Returned:
  *************************************************************************/
-void printCodes(BTNodePtr psRoot, int arr[], int top)
+void findBinary(BTNodePtr psRoot, char character, int arr[], int top, FILE* fPtr)
 {
 	if (psRoot->psLeftChild) {
 		arr[top] = 0;
-		printCodes(psRoot->psLeftChild, arr, top + 1);
+		findBinary(psRoot->psLeftChild, character, arr, top + 1, fPtr);
 	}
 
 	if (psRoot->psRightChild) {
 		arr[top] = 1;
-		printCodes(psRoot->psRightChild, arr, top + 1);
+		findBinary(psRoot->psRightChild, character, arr, top + 1, fPtr);
 	}
 
-	if (isLeaf(psRoot)) {
-		printf("%c: ", psRoot->character);
-		printArray(arr, top);
+	if (isLeaf(psRoot))
+	{
+		if (psRoot->character == character)
+		{
+			printArray(arr, top, fPtr);
+		}
 	}
 }
 /**************************************************************************
@@ -161,14 +164,12 @@ void printCodes(BTNodePtr psRoot, int arr[], int top)
 
  Returned:
  *************************************************************************/
-void printArray(int arr[], int numElem)
+void printArray(int arr[], int numElem, FILE* fPtr)
 {
 	for (int i = 0; i < numElem; ++i)
 	{
-		printf("%d", arr[i]);
+		fprintf(fPtr, "%d", arr[i]);
 	}
-
-	printf("\n");
 }
 /**************************************************************************
  Function:
@@ -181,5 +182,42 @@ void printArray(int arr[], int numElem)
  *************************************************************************/
 bool isLeaf(BTNodePtr psRoot)
 {
-    return !(psRoot->psLeftChild) && !(psRoot->psRightChild);
+  return !(psRoot->psLeftChild) && !(psRoot->psRightChild);
+}
+/**************************************************************************
+ Function:
+
+ Description:
+
+ Parameters:
+
+ Returned:
+ *************************************************************************/
+void encodeText (HuffmanPtr psHuffman, FILE* fPtr)
+{
+	const char NEW_LINE = '\n';
+	const int MAX_LEN = 11;
+	int array[MAX_LEN];
+	char temp;
+	FILE *fOutput;
+
+	fOutput = fopen("data/output.txt", "w");
+
+	while (!feof(fPtr))
+	{
+		fscanf(fPtr, "%c", &temp);
+		if (temp == ' ')
+		{
+			temp = '_';
+		}
+		if (NEW_LINE == temp)
+		{
+			fprintf(fOutput, "%c", NEW_LINE);
+		}
+		else
+		{
+			findBinary(psHuffman->psTree, temp, array, 0, fOutput);
+		}
+	}
+	fclose(fOutput);
 }

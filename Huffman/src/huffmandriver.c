@@ -4,7 +4,8 @@
  Date:				November 27 2021
  Class:				CS300 Data Structures
  Assignment:	Binary Tree
- Purpose:
+ Purpose:			To guide the user through the process of using the Huffman tree
+  						for printing, decoding, and encoding
  *************************************************************************/
 
 #include <stdio.h>
@@ -57,6 +58,7 @@ int main (int argc, char** argv)
 		{
 			fPtr = fopen(argv[2], "r");
 			decodeText(&sHuffman, fPtr);
+			printf("Success: inputted data has been decoded.\n\n");
 			fclose(fPtr);
 		}
 		else
@@ -66,7 +68,13 @@ int main (int argc, char** argv)
 	}
 	else if (strcmp(ENCODE_OPTION, argv[1]) == 0 && argc > 2)
 	{
-		printf("TODO: encode not implemented\n\n");
+		if (argc > 2)
+		{
+			fPtr = fopen(argv[2], "r");
+			encodeText(&sHuffman, fPtr);
+			printf("Success: inputted data has been encoded.\n\n");
+			fclose(fPtr);
+		}
 	}
 	else
 	{
