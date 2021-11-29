@@ -30,5 +30,9 @@ typedef struct Huffman
 
 extern BTNodePtr createTree(HuffmanPtr psHuffman);
 extern void terminateHuffman(HuffmanPtr psHuffman);
+extern void decodeText (HuffmanPtr, FILE*);
+extern bool isLeaf(BTNodePtr);
+extern void printCodes(BTNodePtr, int[], int);
+extern void printArray(int arr[], int numElem);
 
 #endif /* HUFFMAN_H_ */

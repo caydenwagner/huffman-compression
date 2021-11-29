@@ -62,8 +62,124 @@ BTNodePtr createTree(HuffmanPtr psHuffman)
 
  Returned:	 	none
  *************************************************************************/
-void terminateHuffman(HuffmanPtr psHuffman)
+void terminateHuffman (HuffmanPtr psHuffman)
 {
 	pqueueTerminate(&(psHuffman->sPQueue));
 	freeTree(psHuffman->psTree);
+}
+/**************************************************************************
+ Function:
+
+ Description:
+
+ Parameters:
+
+ Returned:
+ *************************************************************************/
+void decodeText (HuffmanPtr psHuffman, FILE *fPtr)
+{
+	const char NEW_LINE = '\n';
+	char temp;
+	BTNodePtr psTemp = psHuffman->psTree;
+	FILE *fOutput;
+	bool bError = false;
+
+	fOutput = fopen("data/output.txt", "w");
+
+	while (!feof(fPtr) && !bError)
+	{
+		fscanf(fPtr, "%c", &temp);
+
+		if (NEW_LINE != temp)
+		{
+			if ('1' == temp)
+			{
+				psTemp = psTemp->psRightChild;
+			}
+			else if ('0' == temp)
+			{
+				psTemp = psTemp->psLeftChild;
+			}
+			else
+			{
+				printf("Error: Unknown character in the encoded file\n\n");
+				bError = true;
+			}
+
+			if (isLeaf(psTemp))
+			{
+				if ('_' == psTemp->character)
+				{
+					fprintf(fOutput, "%c", ' ');
+				}
+				else
+				{
+					fprintf(fOutput, "%c", psTemp->character);
+				}
+				psTemp = psHuffman->psTree;
+			}
+		}
+		else
+		{
+			fprintf(fOutput, "%c", NEW_LINE);
+		}
+	}
+	fclose(fOutput);
+}
+/**************************************************************************
+ Function:
+
+ Description:
+
+ Parameters:
+
+ Returned:
+ *************************************************************************/
+void printCodes(BTNodePtr psRoot, int arr[], int top)
+{
+	if (psRoot->psLeftChild) {
+		arr[top] = 0;
+		printCodes(psRoot->psLeftChild, arr, top + 1);
+	}
+
+	if (psRoot->psRightChild) {
+		arr[top] = 1;
+		printCodes(psRoot->psRightChild, arr, top + 1);
+	}
+
+	if (isLeaf(psRoot)) {
+		printf("%c: ", psRoot->character);
+		printArray(arr, top);
+	}
+}
+/**************************************************************************
+ Function:
+
+ Description:
+
+ Parameters:
+
+ Returned:
+ *************************************************************************/
+void printArray(int arr[], int numElem)
+{
+	for (int i = 0; i < numElem; ++i)
+	{
+		printf("%d", arr[i]);
+	}
+
+	printf("\n");
+}
+/**************************************************************************
+ Function:
+
+ Description:
+
+ Parameters:
+
+ Returned:
+ *************************************************************************/
+bool isLeaf(BTNodePtr psRoot)
+{
+    return !(psRoot->psLeftChild) && !(psRoot->psRightChild);
 }

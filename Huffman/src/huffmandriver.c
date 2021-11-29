@@ -17,54 +17,6 @@
 #include "../../PriorityQueueADT/include/pqueue.h"
 #include "../../BinaryTreeADT/include/binarytree.h"
 #include "../include/huffman.h"
-
-/**************************************************************************
- Function: 	 	success
-
- Description: print a success message
-
- Parameters:	szStr - the message to print
-
- Returned:	 	none
- *************************************************************************/
-static void success (char * szStr)
-{
-	printf ("SUCCESS: %s\n", szStr);
-}
-/**************************************************************************
- Function: 	 	failure
-
- Description: print a failure message
-
- Parameters:	szStr - the message to print
- Returned:	 	none
- *************************************************************************/
-static void failure (char * szStr)
-{
-	printf ("FAILURE: %s\n", szStr);
-	exit (EXIT_FAILURE);
-}
-/****************************************************************************
- Function: 	 	assert
-
- Description: if the expression is true, assert success; otherwise, assert
- 	 	 	 	 	 	 	failure
-
- Parameters:	szStr - the message to print
-
- Returned:	 	none
- ****************************************************************************/
-static void assert (bool bExpression, char *pTrue, char *pFalse)
-{
-	if (bExpression)
-	{
-		success (pTrue);
-	}
-	else
-	{
-		failure (pFalse);
-	}
-}
 /**************************************************************************
  Function: 	 	main
 
@@ -89,7 +41,7 @@ int main (int argc, char** argv)
 
 	if (!(argc > 1))
 	{
-		printf("Error, expected data file in command line\n\n");
+		printf("Error, expected command line arguments\n\n");
 		return EXIT_FAILURE;
 	}
 
@@ -101,11 +53,20 @@ int main (int argc, char** argv)
 	}
 	else if (strcmp(DECODE_OPTION, argv[1]) == 0)
 	{
-		printf("TODO:Decode option is not yet implemented\n");
+		if (argc > 2)
+		{
+			fPtr = fopen(argv[2], "r");
+			decodeText(&sHuffman, fPtr);
+			fclose(fPtr);
+		}
+		else
+		{
+			printf("Error! Expected an input file in the command line\n\n");
+		}
 	}
-	else if (strcmp(ENCODE_OPTION, argv[1]) == 0)
+	else if (strcmp(ENCODE_OPTION, argv[1]) == 0 && argc > 2)
 	{
-		printf("TODO:Encode option is not yet implemented\n");
+		printf("TODO: encode not implemented\n\n");
 	}
 	else
 	{
