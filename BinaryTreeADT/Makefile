@@ -28,7 +28,8 @@ bin/binarytree.o: src/binarytree.c include/binarytree.h ../ListADT/include/list.
 	cd ../PriorityQueueADT; make bin/pqueue.o
 	
 valgrind: bin/binarytreedriver
-	valgrind -v --leak-check=yes --track-origins=yes --leak-check=full --show-leak-kinds=all bin/binarytreedriver
+	valgrind -v --leak-check=yes --track-origins=yes --leak-check=full \
+	--show-leak-kinds=all bin/binarytreedriver
 
 clean:
 	rm -rf bin/*.o bin/binarytreedriver

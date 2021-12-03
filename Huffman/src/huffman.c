@@ -191,9 +191,6 @@ void encodeText (HuffmanPtr psHuffman, FILE* fPtr)
 	const int MAX_LEN = 11;
 	int array[MAX_LEN];
 	char temp;
-	FILE *fOutput;
-
-	fOutput = fopen("data/output.txt", "w");
 
 	while (1)
 	{
@@ -211,5 +208,4 @@ void encodeText (HuffmanPtr psHuffman, FILE* fPtr)
 			findBinary(psHuffman->psTree, temp, array, 0);
 		}
 	}
-	fclose(fOutput);
 }

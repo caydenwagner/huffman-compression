@@ -4,7 +4,6 @@
  Date:					11.27.2021
  Class:         CS300
  Assignment:		Binary Tree
- Purpose:
  *************************************************************************/
 
 #ifndef HUFFMAN_H_
