@@ -145,6 +145,7 @@ void BTPrintInorder (BTNodePtr psNode) {
 void BTPrintLeftSide(BTNodePtr psRoot, int indent)
 {
 	const int SPACING = 8;
+	const int ROOT_CHAR = '$';
 	if(NULL != psRoot) {
 		if(psRoot->psRightChild)
 			BTPrintLeftSide(psRoot->psRightChild, indent + SPACING);
@@ -156,7 +157,14 @@ void BTPrintLeftSide(BTNodePtr psRoot, int indent)
 			 printf(" ");
 			}
 		}
-		printf ("(%g,%c)\n", psRoot->key, psRoot->character);
+		if (ROOT_CHAR == psRoot->character)
+		{
+			printf ("(%g)\n", psRoot->key);
+		}
+		else
+		{
+			printf ("(%g,%c)\n", psRoot->key, psRoot->character);
+		}
 
 		if(psRoot->psLeftChild)
 			BTPrintLeftSide(psRoot->psLeftChild, indent + SPACING);

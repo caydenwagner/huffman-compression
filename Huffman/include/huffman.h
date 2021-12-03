@@ -32,8 +32,8 @@ extern BTNodePtr createTree(HuffmanPtr psHuffman);
 extern void terminateHuffman(HuffmanPtr psHuffman);
 extern void encodeText (HuffmanPtr, FILE*);
 extern bool isLeaf(BTNodePtr);
-extern void findBinary(BTNodePtr, char, int[], int, FILE*);
-extern void printArray(int arr[], int numElem, FILE*);
+extern void findBinary(BTNodePtr, char, int[], int);
+extern void printArray(int arr[], int numElem);
 extern void decodeText(HuffmanPtr, FILE*);
 
 #endif /* HUFFMAN_H_ */

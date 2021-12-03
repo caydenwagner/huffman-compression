@@ -23,14 +23,14 @@
  *************************************************************************/
 BTNodePtr createTree(HuffmanPtr psHuffman)
 {
-	const char SPACE_CHAR = '_';
+	const char SPACE_CHAR = ' ';
 	const int LETTERS_IN_ALPHABET = 26;
 	const double FREQUENCIES[] = {.0622, .0132, .0311, .0297, .1053, .0168, .0165,
 																.0363, .0614, .0007, .0031, .0307, .0248, .0573,
 																.0606, .0189, .0010, .0587, .0581, .0768, .0227,
 																.0070, .0113, .0025, .0107, .0005, .1821};
 
-	char letter = 'a';
+	char letter = 'A';
 	BTNode sTemp;
 
 	pqueueCreate(&(psHuffman->sPQueue));
@@ -82,50 +82,31 @@ void decodeText (HuffmanPtr psHuffman, FILE *fPtr)
 	const char NEW_LINE = '\n';
 	char temp;
 	BTNodePtr psTemp = psHuffman->psTree;
-	FILE *fOutput;
 	bool bError = false;
-
-	fOutput = fopen("data/output.txt", "w");
 
 	while (!feof(fPtr) && !bError)
 	{
 		fscanf(fPtr, "%c", &temp);
 
-		if (NEW_LINE != temp)
+		if ('1' == temp)
 		{
-			if ('1' == temp)
-			{
-				psTemp = psTemp->psRightChild;
-			}
-			else if ('0' == temp)
-			{
-				psTemp = psTemp->psLeftChild;
-			}
-			else
-			{
-				printf("Error: Unknown character in the encoded file\n\n");
-				bError = true;
-			}
-
-			if (isLeaf(psTemp))
-			{
-				if ('_' == psTemp->character)
-				{
-					fprintf(fOutput, "%c", ' ');
-				}
-				else
-				{
-					fprintf(fOutput, "%c", psTemp->character);
-				}
-				psTemp = psHuffman->psTree;
-			}
+			psTemp = psTemp->psRightChild;
 		}
-		else
+		else if ('0' == temp)
 		{
-			fprintf(fOutput, "%c", NEW_LINE);
+			psTemp = psTemp->psLeftChild;
+		}
+		if (NEW_LINE == temp)
+		{
+			printf("\n");
+		}
+
+		if (isLeaf(psTemp))
+		{
+			printf("%c", psTemp->character);
+			psTemp = psHuffman->psTree;
 		}
 	}
-	fclose(fOutput);
 }
 /**************************************************************************
  Function:			findBinary
@@ -141,24 +122,23 @@ void decodeText (HuffmanPtr psHuffman, FILE *fPtr)
 
  Returned:			none
  *************************************************************************/
-void findBinary(BTNodePtr psRoot, char character, int aBinary[], int top,
-								FILE* fPtr)
+void findBinary(BTNodePtr psRoot, char character, int aBinary[], int top)
 {
 	if (psRoot->psLeftChild) {
 		aBinary[top] = 0;
-		findBinary(psRoot->psLeftChild, character, aBinary, top + 1, fPtr);
+		findBinary(psRoot->psLeftChild, character, aBinary, top + 1);
 	}
 
 	if (psRoot->psRightChild) {
 		aBinary[top] = 1;
-		findBinary(psRoot->psRightChild, character, aBinary, top + 1, fPtr);
+		findBinary(psRoot->psRightChild, character, aBinary, top + 1);
 	}
 
 	if (isLeaf(psRoot))
 	{
 		if (psRoot->character == character)
 		{
-			printArray(aBinary, top, fPtr);
+			printArray(aBinary, top);
 		}
 	}
 }
@@ -173,11 +153,11 @@ void findBinary(BTNodePtr psRoot, char character, int aBinary[], int top,
 
  Returned:			none
  *************************************************************************/
-void printArray(int aBinary[], int numElem, FILE* fPtr)
+void printArray(int aBinary[], int numElem)
 {
 	for (int i = 0; i < numElem; ++i)
 	{
-		fprintf(fPtr, "%d", aBinary[i]);
+		printf("%d", aBinary[i]);
 	}
 }
 /**************************************************************************
@@ -222,17 +202,13 @@ void encodeText (HuffmanPtr psHuffman, FILE* fPtr)
 		{
 			break;
 		}
-		if (temp == ' ')
-		{
-			temp = '_';
-		}
 		if (NEW_LINE == temp)
 		{
-			fprintf(fOutput, "%c", NEW_LINE);
+			printf("\n");
 		}
 		else
 		{
-			findBinary(psHuffman->psTree, temp, array, 0, fOutput);
+			findBinary(psHuffman->psTree, temp, array, 0);
 		}
 	}
 	fclose(fOutput);
